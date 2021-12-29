@@ -12,6 +12,7 @@ import {
 } from "@firebase/firestore";
 import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../AppContext";
+import Header from "../components/Header";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -31,7 +32,7 @@ export default function Home() {
     setLoading(true);
 
     try {
-      // Save media ( movie / tvshow ) info
+      // Save media ( movie / tv-show ) info
       const docRef = await setDoc(
         doc(db, `users/${session.user.uid}/watchlist`, movieData.id.toString()),
         movieData
@@ -67,47 +68,35 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log(info)
-    return () => {
-    }
-  }, [info])
+    console.log(info);
+    return () => {};
+  }, [info]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
+      
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        {session ? (
-          <div className="flex flex-col">
-            {info.props.nameProps}
-            <button onClick={handleClick}>Click</button>
-            {/* <button className="" onClick={signOut}>
+      {/* <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        
+
+        <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
+          {session ? (
+            <div className="flex flex-col">
+              {info.props.nameProps}
+              <button onClick={handleClick}>Click</button>
+              <button className="" onClick={signOut}>
               Sign out
             </button>
             <button className="" type="button" onClick={saveToDB}>
               Save to DB
             </button>
-            {loading && <p>Loading...</p>} */}
-          </div>
-        ) : (
-          <a href="/api/auth/signin">Sign in</a>
-        )}
-      </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
-    </div>
+            {loading && <p>Loading...</p>}
+            </div>
+          ) : (
+            <a href="/api/auth/signin">Sign in</a>
+          )}
+        </main>
+      </div> */}
+    </>
   );
 }

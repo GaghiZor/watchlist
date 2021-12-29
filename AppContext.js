@@ -5,19 +5,79 @@ import { Constant } from "./Constant";
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
-  const [movies, setMovies] = useState([]);
-  const [series, setSeries] = useState([]);
-  const [actors, setActors] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [infinite, setInfinite] = useState(false);
 
   const [data, setData] = useState({
+    page: 1, // Default page number
     movies: [],
+    moviesUpcoming: [],
     series: [],
+    seriesOnAir: [],
+    people: [],
+    visible: 20, // Default value for items shown
   });
 
-  const getSeries = async (page) => {
+  const clearState = () => {
+    setData({
+      page: 1,
+      movies: [],
+      moviesUpcoming: [],
+      series: [],
+      seriesOnAir: [],
+      people: [],
+      visible: 20, // Default value for items shown
+    });
+  };
+
+  const getMovies = async (page) => {
+    setLoading(true);
     await axios
       .get(
-        `${Constant.DB_ENDPOINT}/discover/tv?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&page=${page || 1}`
+        `${Constant.DB_ENDPOINT}/movie/popular?api_key=${
+          process.env.NEXT_PUBLIC_TMDB_API_KEY
+        }&page=${page || 1}`
+      )
+      .then((response) => {
+        const apiResponse = response.data;
+        var newMovies = data.movies.concat(apiResponse.results);
+        setData((oldData) => {
+          return { ...oldData, movies: newMovies };
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getMoviesUpcoming = async (page) => {
+    setLoading(true);
+    await axios
+      .get(
+        `${Constant.DB_ENDPOINT}/movie/upcoming?api_key=${
+          process.env.NEXT_PUBLIC_TMDB_API_KEY
+        }&page=${page || 1}`
+      )
+      .then((response) => {
+        const apiResponse = response.data;
+        setData((oldData) => {
+          return { ...oldData, moviesUpcoming: apiResponse.results };
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getSeries = async (page) => {
+    setLoading(true);
+    await axios
+      .get(
+        `${Constant.DB_ENDPOINT}/tv/popular?api_key=${
+          process.env.NEXT_PUBLIC_TMDB_API_KEY
+        }&page=${page || 1}`
       )
       .then((response) => {
         const apiResponse = response.data;
@@ -25,22 +85,48 @@ const AppContextProvider = (props) => {
         setData((oldData) => {
           return { ...oldData, series: apiResponse.results };
         });
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const getMovies = async (page) => {
+  const getSeriesOnAir = async (page) => {
+    setLoading(true);
     await axios
       .get(
-        `${Constant.DB_ENDPOINT}/discover/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&page=${page || 1}`
+        `${Constant.DB_ENDPOINT}/tv/on_the_air?api_key=${
+          process.env.NEXT_PUBLIC_TMDB_API_KEY
+        }&page=${page || 1}`
+      )
+      .then((response) => {
+        const apiResponse = response.data;
+        // Save old data and rewrite only new data
+        setData((oldData) => {
+          return { ...oldData, seriesOnAir: apiResponse.results };
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getPeople = async (page) => {
+    setLoading(true);
+    await axios
+      .get(
+        `${Constant.DB_ENDPOINT}/person/popular?api_key=${
+          process.env.NEXT_PUBLIC_TMDB_API_KEY
+        }&page=${page || 1}`
       )
       .then((response) => {
         const apiResponse = response.data;
         setData((oldData) => {
-            return { ...oldData, movies: apiResponse.results };
-          });
+          return { ...oldData, people: apiResponse.results };
+        });
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -48,7 +134,20 @@ const AppContextProvider = (props) => {
   };
 
   return (
-    <AppContext.Provider value={{ data, movies, series, getMovies, getSeries }}>
+    <AppContext.Provider
+      value={{
+        data,
+        loading,
+        setInfinite,
+        setData,
+        getMovies,
+        getMoviesUpcoming,
+        getSeries,
+        getSeriesOnAir,
+        getPeople,
+        clearState,
+      }}
+    >
       {props.children}
     </AppContext.Provider>
   );

@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .navbar-icon {
+    @apply w-8 h-8 text-blue-600;
+  }
+}
