@@ -40,6 +40,7 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
+        // Save old data and rewrite only new data
         var newMovies = data.movies.concat(apiResponse.results);
         setData((oldData) => {
           return { ...oldData, movies: newMovies };
@@ -61,8 +62,9 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
+        var newMoviesUpcoming = data.moviesUpcoming.concat(apiResponse.results);
         setData((oldData) => {
-          return { ...oldData, moviesUpcoming: apiResponse.results };
+          return { ...oldData, moviesUpcoming: newMoviesUpcoming };
         });
         setLoading(false);
       })
@@ -81,9 +83,9 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        // Save old data and rewrite only new data
+        var newSeries = data.series.concat(apiResponse.results);
         setData((oldData) => {
-          return { ...oldData, series: apiResponse.results };
+          return { ...oldData, series: newSeries };
         });
         setLoading(false);
       })
@@ -102,9 +104,9 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        // Save old data and rewrite only new data
+        var newSeriesOnAir = data.seriesOnAir.concat(apiResponse.results);
         setData((oldData) => {
-          return { ...oldData, seriesOnAir: apiResponse.results };
+          return { ...oldData, seriesOnAir: newSeriesOnAir };
         });
         setLoading(false);
       })
@@ -123,8 +125,9 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
+        var newPeople = data.people.concat(apiResponse.results);
         setData((oldData) => {
-          return { ...oldData, people: apiResponse.results };
+          return { ...oldData, people: newPeople };
         });
         setLoading(false);
       })

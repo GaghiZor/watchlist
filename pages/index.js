@@ -18,15 +18,6 @@ export default function Home() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
 
-  const { data } = useContext(AppContext);
-
-  const movieData = {
-    name: "Spider-Man",
-    year: "2000",
-    language: "en",
-    id: 123241,
-  };
-
   const saveToDB = async () => {
     if (loading) return;
     setLoading(true);
@@ -51,26 +42,9 @@ export default function Home() {
     setLoading(false);
   };
 
-  const [info, setInfo] = useState({
-    name: "test",
-    props: {
-      nameProps: "nameProps",
-    },
-  });
-
-  const handleClick = () => {
-    const newData = {
-      nameProps: "new data",
-    };
-    console.log(info);
-    setInfo({ ...info, props: newData });
-    console.log(info);
-  };
-
   useEffect(() => {
-    console.log(info);
     return () => {};
-  }, [info]);
+  }, []);
 
   return (
     <>
