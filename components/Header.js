@@ -129,14 +129,14 @@ const Header = () => {
                       <Popover.Panel className="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-min sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
                         <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                           <div className="relative grid bg-white px-5 py-6 sm:gap-2 sm:p-4">
-                            <Link href="/Series/Series">
+                            <Link href="/Tv/Tv">
                               <a className="flex flex-row items-center hover:bg-gray-50">
                                 <FireIcon className="navbar-icon" />
                                 <span className="ml-3">Popular</span>
                               </a>
                             </Link>
 
-                            <Link href="/Series/SeriesOnAir">
+                            <Link href="/Tv/TvOnAir">
                               <a className="flex flex-row items-center hover:bg-gray-50">
                                 <PlayIcon className="navbar-icon" />
                                 <span className="ml-3">Airing</span>
@@ -216,9 +216,9 @@ const Header = () => {
                       Movies
                     </a>
                   </Link>
-                  <Link href="/Series">
+                  <Link href="/Tv">
                     <a className="text-base font-medium text-gray-900 hover:text-gray-700">
-                      Series
+                      Tv
                     </a>
                   </Link>
 

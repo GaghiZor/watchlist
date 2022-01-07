@@ -1,13 +1,13 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
-import MediaCard from "../../components/MediaCard";
+import TvCard from "../../components/Cards/TvCard";
 
-const Series = () => {
+const Tv = () => {
   const {
-    data: { page, series },
+    data: { page, tv },
     loading,
     setData,
-    getSeries,
+    getTv,
     clearState,
   } = useContext(AppContext);
 
@@ -35,16 +35,16 @@ const Series = () => {
 	);
 
   useEffect(() => {
-    getSeries(page);
+    getTv(page);
   }, [page]);
 
   return (
     <div>
       <h1> TV Shows </h1>
       <div className="py-8 px-40 bg-gray-900">
-        {series &&
-          series.map((tv, index) => (
-            <MediaCard ref={lastElementRef} key={index} media={tv} />
+        {tv &&
+          tv.map((show, index) => (
+            <TvCard ref={lastElementRef} key={index} media={show} />
           ))}
       </div>
       {pagesReached ? (
@@ -56,4 +56,4 @@ const Series = () => {
   );
 };
 
-export default Series;
+export default Tv;

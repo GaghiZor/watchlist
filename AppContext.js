@@ -6,16 +6,24 @@ export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
   const [loading, setLoading] = useState(false);
-  const [infinite, setInfinite] = useState(false);
 
   const [data, setData] = useState({
     page: 1, // Default page number
     movies: [],
     moviesUpcoming: [],
-    series: [],
-    seriesOnAir: [],
+    movieDetails: "",
+
     people: [],
-    visible: 20, // Default value for items shown
+
+    tv: [],
+    tvOnAir: [],
+    tvDetails: "",
+    tvGenres: [],
+    tvCompanies: [],
+    tvCreatedBy: [],
+    tvSeasons: [],
+    tvLanguages: [],
+    tvLastEpisodeToAir: "",
   });
 
   const clearState = () => {
@@ -23,10 +31,18 @@ const AppContextProvider = (props) => {
       page: 1,
       movies: [],
       moviesUpcoming: [],
-      series: [],
-      seriesOnAir: [],
+
       people: [],
-      visible: 20, // Default value for items shown
+
+      tv: [],
+      tvOnAir: [],
+      tvDetails: "",
+      tvGenres: [],
+      tvCompanies: [],
+      tvCreatedBy: [],
+      tvSeasons: [],
+      tvLanguages: [],
+      tvLastEpisodeToAir: "",
     });
   };
 
@@ -73,7 +89,7 @@ const AppContextProvider = (props) => {
       });
   };
 
-  const getSeries = async (page) => {
+  const getTv = async (page) => {
     setLoading(true);
     await axios
       .get(
@@ -83,9 +99,9 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        var newSeries = data.series.concat(apiResponse.results);
+        var newTv = data.tv.concat(apiResponse.results);
         setData((oldData) => {
-          return { ...oldData, series: newSeries };
+          return { ...oldData, tv: newTv };
         });
         setLoading(false);
       })
@@ -94,7 +110,33 @@ const AppContextProvider = (props) => {
       });
   };
 
-  const getSeriesOnAir = async (page) => {
+  const getTvDetails = async (id) => {
+    setLoading(true);
+    await axios
+      .get(
+        `${Constant.DB_ENDPOINT}/tv/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`
+      )
+      .then((response) => {
+        const apiResponse = response.data;
+        setData((oldData) => {
+          return {
+            ...oldData,
+            tvDetails: apiResponse,
+            tvGenres: apiResponse.genres,
+            tvCompanies: apiResponse.production_companies,
+            tvCreatedBy: apiResponse.created_by,
+            tvSeasons: apiResponse.seasons,
+            tvLanguages: apiResponse.languages,
+            tvLastEpisodeToAir: apiResponse.last_episode_to_air,
+          };
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getTvOnAir = async (page) => {
     setLoading(true);
     await axios
       .get(
@@ -104,9 +146,9 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        var newSeriesOnAir = data.seriesOnAir.concat(apiResponse.results);
+        var newTvOnAir = data.tvOnAir.concat(apiResponse.results);
         setData((oldData) => {
-          return { ...oldData, seriesOnAir: newSeriesOnAir };
+          return { ...oldData, tvOnAir: newTvOnAir };
         });
         setLoading(false);
       })
@@ -141,12 +183,12 @@ const AppContextProvider = (props) => {
       value={{
         data,
         loading,
-        setInfinite,
         setData,
         getMovies,
         getMoviesUpcoming,
-        getSeries,
-        getSeriesOnAir,
+        getTv,
+        getTvDetails,
+        getTvOnAir,
         getPeople,
         clearState,
       }}

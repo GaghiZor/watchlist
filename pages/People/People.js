@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
-import MediaCard from "../../components/MediaCard";
+import PersonCard from "../../components/Cards/PersonCard";
 
 const People = () => {
   const {
@@ -44,7 +44,7 @@ const People = () => {
       <div className="py-8 px-40 bg-gray-900">
         {people &&
           people.map((person, index) => (
-            <MediaCard ref={lastElementRef} key={index} media={person} />
+            <PersonCard ref={lastElementRef} key={index} media={person} />
           ))}
       </div>
       {pagesReached ? (

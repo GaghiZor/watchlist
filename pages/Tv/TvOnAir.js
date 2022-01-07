@@ -1,14 +1,13 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
-import MediaCard from "../../components/MediaCard";
+import TvCard from "../../components/Cards/TvCard";
 
-const UpcomingMovies = () => {
+const TvOnAir = () => {
   const {
-    data: { page, seriesOnAir },
+    data: { page, tvOnAir },
     loading,
     setData,
-    getSeriesOnAir,
-    clearState,
+    getTvOnAir,
   } = useContext(AppContext);
 
   const [pagesReached, setPagesReached] = useState(false);
@@ -35,16 +34,16 @@ const UpcomingMovies = () => {
 	);
 
   useEffect(() => {
-    getSeriesOnAir(page);
+    getTvOnAir(page);
   }, [page]);
 
   return (
     <div>
       <h1> TV Shows currenty on air </h1>
       <div className="py-8 px-40 bg-gray-900">
-        {seriesOnAir &&
-          seriesOnAir.map((tv, index) => (
-            <MediaCard ref={lastElementRef} key={index} media={tv} />
+        {tvOnAir &&
+          tvOnAir.map((show, index) => (
+            <TvCard ref={lastElementRef} key={index} media={show} />
           ))}
       </div>
       {pagesReached ? (
@@ -56,4 +55,4 @@ const UpcomingMovies = () => {
   );
 };
 
-export default UpcomingMovies;
+export default TvOnAir;

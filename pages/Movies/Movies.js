@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
-import MediaCard from "../../components/MediaCard";
+import MovieCard from "../../components/Cards/MovieCard";
 
 const Movies = () => {
   const {
@@ -36,9 +36,6 @@ const Movies = () => {
 
   useEffect(() => {
     getMovies(page);
-    return () => {
-      clearState();
-    }
   }, [page]);
 
   return (
@@ -47,7 +44,7 @@ const Movies = () => {
       <div className="py-8 px-40 bg-gray-900">
         {movies &&
           movies.map((movie, index) => (
-            <MediaCard ref={lastElementRef} key={index} media={movie} />
+            <MovieCard ref={lastElementRef} key={index} media={movie} />
           ))}
       </div>
       {pagesReached ? (
