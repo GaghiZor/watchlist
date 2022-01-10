@@ -11,19 +11,11 @@ const AppContextProvider = (props) => {
     page: 1, // Default page number
     movies: [],
     moviesUpcoming: [],
-    movieDetails: "",
 
     people: [],
 
     tv: [],
     tvOnAir: [],
-    tvDetails: "",
-    tvGenres: [],
-    tvCompanies: [],
-    tvCreatedBy: [],
-    tvSeasons: [],
-    tvLanguages: [],
-    tvLastEpisodeToAir: "",
   });
 
   const clearState = () => {
@@ -36,13 +28,6 @@ const AppContextProvider = (props) => {
 
       tv: [],
       tvOnAir: [],
-      tvDetails: "",
-      tvGenres: [],
-      tvCompanies: [],
-      tvCreatedBy: [],
-      tvSeasons: [],
-      tvLanguages: [],
-      tvLastEpisodeToAir: "",
     });
   };
 
@@ -110,32 +95,6 @@ const AppContextProvider = (props) => {
       });
   };
 
-  const getTvDetails = async (id) => {
-    setLoading(true);
-    await axios
-      .get(
-        `${Constant.DB_ENDPOINT}/tv/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`
-      )
-      .then((response) => {
-        const apiResponse = response.data;
-        setData((oldData) => {
-          return {
-            ...oldData,
-            tvDetails: apiResponse,
-            tvGenres: apiResponse.genres,
-            tvCompanies: apiResponse.production_companies,
-            tvCreatedBy: apiResponse.created_by,
-            tvSeasons: apiResponse.seasons,
-            tvLanguages: apiResponse.languages,
-            tvLastEpisodeToAir: apiResponse.last_episode_to_air,
-          };
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const getTvOnAir = async (page) => {
     setLoading(true);
     await axios
@@ -187,7 +146,6 @@ const AppContextProvider = (props) => {
         getMovies,
         getMoviesUpcoming,
         getTv,
-        getTvDetails,
         getTvOnAir,
         getPeople,
         clearState,

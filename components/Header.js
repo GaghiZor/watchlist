@@ -77,14 +77,14 @@ const Header = () => {
                       <Popover.Panel className="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-min sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
                         <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                           <div className="relative grid bg-white px-5 py-6 sm:gap-2 sm:p-4">
-                            <Link href="/Movies/Movies">
+                            <Link href="/movies/popular-movies">
                               <a className="flex flex-row items-center hover:bg-gray-50">
                                 <FireIcon className="navbar-icon" />
                                 <span className="ml-3">Popular</span>
                               </a>
                             </Link>
 
-                            <Link href="/Movies/UpcomingMovies">
+                            <Link href="/movies/upcoming-movies">
                               <a className="flex flex-row items-center hover:bg-gray-50">
                                 <SpeakerphoneIcon className="navbar-icon" />
                                 <span className="ml-3">Upcoming</span>
@@ -129,14 +129,14 @@ const Header = () => {
                       <Popover.Panel className="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-min sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
                         <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                           <div className="relative grid bg-white px-5 py-6 sm:gap-2 sm:p-4">
-                            <Link href="/Tv/Tv">
+                            <Link href="/tv/tv">
                               <a className="flex flex-row items-center hover:bg-gray-50">
                                 <FireIcon className="navbar-icon" />
                                 <span className="ml-3">Popular</span>
                               </a>
                             </Link>
 
-                            <Link href="/Tv/TvOnAir">
+                            <Link href="/tv/tv-on-air">
                               <a className="flex flex-row items-center hover:bg-gray-50">
                                 <PlayIcon className="navbar-icon" />
                                 <span className="ml-3">Airing</span>
@@ -150,7 +150,7 @@ const Header = () => {
                 )}
               </Popover>
 
-              <Link href="/People/People">
+              <Link href="/people/people">
                 <a className="text-base font-medium text-gray-500 hover:text-gray-900">
                   People
                 </a>
@@ -211,18 +211,18 @@ const Header = () => {
               </div>
               <div className="py-6 px-5 space-y-6">
                 <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-                  <Link href="/Movies">
+                  <Link href="/movies">
                     <a className="text-base font-medium text-gray-900 hover:text-gray-700">
                       Movies
                     </a>
                   </Link>
-                  <Link href="/Tv">
+                  <Link href="/tv">
                     <a className="text-base font-medium text-gray-900 hover:text-gray-700">
                       Tv
                     </a>
                   </Link>
 
-                  <Link href="/People">
+                  <Link href="/people">
                     <a className="text-base font-medium text-gray-900 hover:text-gray-700">
                       People
                     </a>

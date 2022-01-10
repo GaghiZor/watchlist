@@ -4,7 +4,7 @@ const Home = () => {
     return (
         <div>
             <h1>Movies Home</h1>
-            <Link href="/Movies/Movies">
+            <Link href="/movies/popular-movies">
                 <a>Popular Movies</a>
             </Link>
         </div>

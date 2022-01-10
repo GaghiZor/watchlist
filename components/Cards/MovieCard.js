@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const MovieCard = react.forwardRef(({ media }, ref) => {
   return (
-    <Link href={`/Movies/${media.id}`}>
+    <Link href={`/movies/${media.id}`}>
       <a>
         <div
           ref={ref}

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const PersonCard = react.forwardRef(({ media }, ref) => {
   return (
-    <Link href={`/People/${media.id}`}>
+    <Link href={`/people/${media.id}`}>
       <a>
         <div
           ref={ref}
