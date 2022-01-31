@@ -1,8 +1,13 @@
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { Constant } from "../../Constant";
+import { AppContext } from "../../AppContext";
+
+import { PlusCircleIcon } from "@heroicons/react/solid";
 
 const TvShowDetails = ({ data }) => {
+  const { saveToDB } = useContext(AppContext);
+
   const {
     poster_path,
     overview,
@@ -27,6 +32,11 @@ const TvShowDetails = ({ data }) => {
   return (
     <div>
       <h1>Page</h1>
+
+      <PlusCircleIcon
+        className="h-14 w-14 hover:cursor-pointer"
+        onClick={() => saveToDB(data.tvDetails)}
+      />
 
       {data && (
         <div>

@@ -1,10 +1,23 @@
 import axios from "axios";
 import { createContext, useState } from "react";
 import { Constant } from "./Constant";
+import { useSession } from "next-auth/react";
+import { db } from "./firebase";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+  setDoc,
+  getDocs,
+} from "@firebase/firestore";
 
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
+  const { data: session } = useSession();
+
   const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({
@@ -137,6 +150,58 @@ const AppContextProvider = (props) => {
       });
   };
 
+  const saveToDB = async (media) => {
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      console.log(media);
+      // const docRef = await setDoc(
+      //   doc(db, `users/${session.user.uid}/watchlist`, media.id.toString()),
+      //   media
+      // );
+      // Save media ( movie / tv-show ) info
+      if (media.title) {
+        await setDoc(
+          doc(
+            db,
+            `users/${session.user.uid}`,
+            "watchlist_movies",
+            media.id.toString()
+          ),
+          {
+            addedInWatchlist: serverTimestamp(),
+            media,
+          }
+        );
+      } else {
+        await setDoc(
+          doc(
+            db,
+            `users/${session.user.uid}`,
+            "watchlist_tv",
+            media.id.toString()
+          ),
+          {
+            addedInWatchlist: serverTimestamp(),
+            media,
+          }
+        );
+      }
+
+      // Save user info
+      const userInfo = await setDoc(doc(db, "users", session.user.uid), {
+        name: session.user.name,
+        username: session.user.username,
+        profileImg: session.user.image,
+        lastUpdate: serverTimestamp(),
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+    setLoading(false);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -149,6 +214,7 @@ const AppContextProvider = (props) => {
         getTvOnAir,
         getPeople,
         clearState,
+        saveToDB,
       }}
     >
       {props.children}

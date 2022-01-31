@@ -1,8 +1,13 @@
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { Constant } from "../../Constant";
+import { AppContext } from "../../AppContext";
+
+import { PlusCircleIcon } from "@heroicons/react/solid";
 
 const MovieDetails = ({ data }) => {
+  const { saveToDB } = useContext(AppContext);
+
   const {
     poster_path,
     title,
@@ -15,7 +20,6 @@ const MovieDetails = ({ data }) => {
     homepage,
     id,
     status,
-    type,
   } = data.movieDetails;
 
   useEffect(() => {}, []);
@@ -23,6 +27,11 @@ const MovieDetails = ({ data }) => {
   return (
     <div>
       <h1>Page</h1>
+
+      <PlusCircleIcon
+        className="h-14 w-14 hover:cursor-pointer"
+        onClick={() => saveToDB(data.movieDetails)}
+      />
 
       {data && (
         <div>
@@ -41,16 +50,12 @@ const MovieDetails = ({ data }) => {
                 <td>{vote_average}</td>
               </tr>
               <tr>
-                  <td>Release date</td>
-                  <td>{release_date}</td>
+                <td>Release date</td>
+                <td>{release_date}</td>
               </tr>
               <tr>
                 <td>Status</td>
                 <td>{status}</td>
-              </tr>
-              <tr>
-                <td>Type</td>
-                <td>{type}</td>
               </tr>
             </tbody>
           </table>
