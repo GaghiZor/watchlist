@@ -4,21 +4,24 @@ import AppContextProvider from "../AppContext";
 import Header from "../components/Header";
 import Head from "next/head";
 import Footer from "../components/Footer";
+import { ChakraProvider, ColorModeScript  } from "@chakra-ui/react";
+import theme from "../theme";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
-      <AppContextProvider>
-        <Head>
-          <title>WatchList Tracker</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <div className="sticky top-0 z-50">
+      <ChakraProvider>
+        <AppContextProvider>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+          <Head>
+            <title>WatchList Tracker</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
           <Header />
-        </div>
-        <Component {...pageProps} />
-        <Footer />
-      </AppContextProvider>
+          <Component {...pageProps} />
+          <Footer />
+        </AppContextProvider>
+      </ChakraProvider>
     </SessionProvider>
   );
 }

@@ -41,7 +41,7 @@ const Tv = () => {
   return (
     <div>
       <h1> TV Shows </h1>
-      <div className="py-8 px-40 bg-gray-900">
+      <div className="py-8 px-40">
         {tv &&
           tv.map((show, index) => (
             <TvCard ref={lastElementRef} key={index} media={show} />

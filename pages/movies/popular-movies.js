@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
 import MovieCard from "../../components/Cards/MovieCard";
+import MovieCardMUI from "../../components/Cards/MovieCardMUI";
 
 const Movies = () => {
   const {
@@ -41,7 +42,7 @@ const Movies = () => {
   return (
     <div>
       <h1> Movies </h1>
-      <div className="py-8 px-40 bg-gray-900">
+      <div className="py-8 px-40">
         {movies &&
           movies.map((movie, index) => (
             <MovieCard ref={lastElementRef} key={index} media={movie} />

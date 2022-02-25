@@ -69,6 +69,7 @@ const MovieDetails = ({ data }) => {
   );
 };
 
+//export const getStaticProps = async (context) => {
 export const getServerSideProps = async (context) => {
   const { params } = context;
   const mediaID = params.id;
@@ -102,4 +103,7 @@ export const getServerSideProps = async (context) => {
   };
 };
 
+// export const getStaticPaths = async () => {
+
+// }
 export default MovieDetails;

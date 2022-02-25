@@ -4,14 +4,13 @@ import { AppContext } from "../AppContext";
 import Header from "../components/Header";
 
 export default function Home() {
-  
+
   useEffect(() => {
     return () => {};
   }, []);
 
   return (
     <>
-      
 
       {/* <div className="flex flex-col items-center justify-center min-h-screen py-2">
         
