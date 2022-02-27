@@ -3,42 +3,65 @@ import react from "react";
 import { Constant } from "../../Constant";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Badge,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Stack,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 const MovieCard = react.forwardRef(({ media }, ref) => {
   return (
     <Link href={`/movies/${media.id}`}>
       <a>
-        <div
-          ref={ref}
-          className="m-8 flex flex-row justify-around items-center p-5 bg-gray-600 rounded-[24px]"
-        >
-          <div className="h-32 w-24 rounded-[12px] lg:h-56 lg:w-48">
-            <div className="relative h-24 w-16 rounded-[12px] lg:h-56 lg:w-36">
-              <Image
-                src={`${Constant.IMG_500}${media.poster_path}`}
-                alt={media.title}
-                layout="fill"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col p-8 w-full">
-            <p className="m-0 text-base lg:text-4xl text-white cursor-pointer">
-              {media.title}
-            </p>
-            <p className="m-0 mt-2 text-xs lg:text-sm text-gray-400 ">
-              {media.release_date}
-            </p>
-            <div className="m-0 mt-2 flex flex-row items-center">
-              {/* Media Rating */}
-              <StarIcon className="text-yellow-500 w-5 h-5" />
-              <p className="m-0 text-gray-400 ml-2 text-sm">
-                {media.vote_average}/10
-              </p>
-            </div>
-            <p className="m-0 text-gray-200 mt-2 max-w-full overflow-hidden text-base overflow-ellipsis">
-              {media.overview || "No description available"}
-            </p>
-          </div>
+        <div ref={ref}>
+          <Center py={3}>
+            <Stack
+              borderWidth="1px"
+              borderRadius="lg"
+              w={{ sm: "100%", md: "90rem" }}
+              height={{ sm: "476px", md: "20rem" }}
+              direction={{ base: "column", md: "row" }}
+              bg={useColorModeValue("white", "gray.900")}
+              boxShadow={"2xl"}
+              padding={4}
+            >
+              <Flex>
+                <Image
+                  src={`${Constant.IMG_500}${media.poster_path}`}
+                  height={300}
+                  width={260}
+                />
+              </Flex>
+              <Stack
+                flex={1}
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                p={1}
+                pt={2}
+              >
+                <Heading fontSize={"2xl"} fontFamily={"body"}>
+                  {media.title}
+                </Heading>
+                <Text fontWeight={600} color={"gray.500"} size="sm" mb={4}>
+                  {media.release_date}
+                </Text>
+                <Text
+                  textAlign={"center"}
+                  color={useColorModeValue("gray.700", "gray.400")}
+                  px={3}
+                >
+                  {media.overview}
+                  
+                </Text>
+              </Stack>
+            </Stack>
+          </Center>
         </div>
       </a>
     </Link>

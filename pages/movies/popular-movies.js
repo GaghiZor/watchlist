@@ -1,7 +1,7 @@
+import { Grid, GridItem } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
 import MovieCard from "../../components/Cards/MovieCard";
-import MovieCardMUI from "../../components/Cards/MovieCardMUI";
 
 const Movies = () => {
   const {
@@ -42,12 +42,14 @@ const Movies = () => {
   return (
     <div>
       <h1> Movies </h1>
-      <div className="py-8 px-40">
+      <Grid templateColumns="repeat(1, 1fr)" gap={6}>
         {movies &&
           movies.map((movie, index) => (
-            <MovieCard ref={lastElementRef} key={index} media={movie} />
+            <GridItem key={index} w="100%">
+              <MovieCard ref={lastElementRef} key={index} media={movie} />
+            </GridItem>
           ))}
-      </div>
+      </Grid>
       {pagesReached ? (
         <div>No more pages to load</div>
       ) : (
