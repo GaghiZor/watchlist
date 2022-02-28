@@ -33,7 +33,14 @@ const Header = () => {
 
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Box
+        bg={useColorModeValue("gray.100", "gray.900")}
+        px={4}
+        as="header"
+        position="fixed"
+        w="100%"
+        zIndex="50"
+      >
         <Flex
           h={16}
           alignItems={"center"}
@@ -148,13 +155,11 @@ const Header = () => {
                     rounded={"full"}
                     variant={"link"}
                     cursor={"pointer"}
-                    
                     minW={0}
                   >
                     <Flex alignItems={"center"}>
-
-                    <Avatar size={"sm"} src={session?.user?.image} />
-                    <ChevronDownIcon w={5} h={5}/>
+                      <Avatar size={"sm"} src={session?.user?.image} />
+                      <ChevronDownIcon w={5} h={5} />
                     </Flex>
                   </MenuButton>
 

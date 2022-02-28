@@ -6,6 +6,7 @@ import Head from "next/head";
 import Footer from "../components/Footer";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import theme from "../theme";
+import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
@@ -17,8 +18,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <title>WatchList Tracker</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
-          <Header />
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
           <Footer />
         </AppContextProvider>
       </ChakraProvider>

@@ -4,14 +4,14 @@ import { Constant } from "../../Constant";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Badge,
-  Button,
+  Box,
   Center,
-  Flex,
   Heading,
-  Stack,
   Text,
+  Stack,
+  Avatar,
   useColorModeValue,
+  Badge,
 } from "@chakra-ui/react";
 
 const MovieCard = react.forwardRef(({ media }, ref) => {
@@ -19,48 +19,62 @@ const MovieCard = react.forwardRef(({ media }, ref) => {
     <Link href={`/movies/${media.id}`}>
       <a>
         <div ref={ref}>
-          <Center py={3}>
-            <Stack
-              borderWidth="1px"
-              borderRadius="lg"
-              w={{ sm: "100%", md: "90rem" }}
-              height={{ sm: "476px", md: "20rem" }}
-              direction={{ base: "column", md: "row" }}
+          <Center py={6}>
+            <Box
+              maxW={"400px"}
+              w={"full"}
               bg={useColorModeValue("white", "gray.900")}
               boxShadow={"2xl"}
-              padding={4}
+              rounded={"md"}
+              p={6}
+              overflow={"hidden"}
             >
-              <Flex>
-                <Image
-                  src={`${Constant.IMG_500}${media.poster_path}`}
-                  height={300}
-                  width={260}
-                />
-              </Flex>
-              <Stack
-                flex={1}
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                p={1}
-                pt={2}
+              <Box
+                h={"250px"}
+                bg={"gray.100"}
+                mt={-6}
+                mx={-6}
+                mb={6}
+                pos={"relative"}
               >
-                <Heading fontSize={"2xl"} fontFamily={"body"}>
+                <Image
+                  src={
+                    media.poster_path
+                      ? `${Constant.IMG_500}${media.poster_path}`
+                      : `${Constant.UNAVAILABLE}`
+                  }
+                  layout={"fill"}
+                />
+              </Box>
+              <Stack>
+                <Text
+                  color={"green.500"}
+                  textTransform={"uppercase"}
+                  fontWeight={800}
+                  fontSize={"sm"}
+                  letterSpacing={1.1}
+                >
+                  Movie
+                </Text>
+                <Heading
+                  color={useColorModeValue("gray.700", "white")}
+                  fontSize={"2xl"}
+                  fontFamily={"body"}
+                >
                   {media.title}
                 </Heading>
-                <Text fontWeight={600} color={"gray.500"} size="sm" mb={4}>
-                  {media.release_date}
-                </Text>
-                <Text
-                  textAlign={"center"}
-                  color={useColorModeValue("gray.700", "gray.400")}
-                  px={3}
-                >
-                  {media.overview}
-                  
-                </Text>
               </Stack>
-            </Stack>
+              <Stack mt={6} direction={"row"} spacing={4} align={"center"}>
+                <Badge ml="1" fontSize="0.8em" colorScheme="green">
+                  {media.vote_average ? media.vote_average : "N/A"}
+                </Badge>
+                <Stack direction={"column"} spacing={0} fontSize={"sm"}>
+                  <Text color={"gray.500"}>
+                    {media.release_date ? media.release_date : "N/A"}
+                  </Text>
+                </Stack>
+              </Stack>
+            </Box>
           </Center>
         </div>
       </a>

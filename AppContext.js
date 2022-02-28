@@ -25,6 +25,11 @@ const AppContextProvider = (props) => {
     movies: [],
     moviesUpcoming: [],
 
+    genres: [],
+    selectedGenres: [],
+    genreURLIds: "",
+    oldGenreURLIds: "",
+
     people: [],
 
     tv: [],
@@ -37,6 +42,11 @@ const AppContextProvider = (props) => {
       movies: [],
       moviesUpcoming: [],
 
+      genres: [],
+      selectedGenres: [],
+      genreURLIds: "",
+      oldGenreURLIds: "",
+
       people: [],
 
       tv: [],
@@ -44,21 +54,28 @@ const AppContextProvider = (props) => {
     });
   };
 
-  const getMovies = async (page) => {
+  const getMovies = async (page, genreURLIds) => {
     setLoading(true);
     await axios
       .get(
         `${Constant.DB_ENDPOINT}/movie/popular?api_key=${
           process.env.NEXT_PUBLIC_TMDB_API_KEY
-        }&page=${page || 1}`
+        }&page=${page || 1}&with_genres=${genreURLIds}`
       )
       .then((response) => {
         const apiResponse = response.data;
         // Save old data and rewrite only new data
-        var newMovies = data.movies.concat(apiResponse.results);
-        setData((oldData) => {
-          return { ...oldData, movies: newMovies };
-        });
+        if (data.oldGenreURLIds === genreURLIds) {
+          let newMovies = data.movies.concat(apiResponse.results);
+          setData((oldData) => {
+            return { ...oldData, movies: newMovies };
+          });
+        } else {
+          setData((oldData) => {
+            return { ...oldData, movies: apiResponse.results, oldGenreURLIds: genreURLIds };
+          });
+        }
+
         setLoading(false);
       })
       .catch((error) => {
@@ -76,7 +93,7 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        var newMoviesUpcoming = data.moviesUpcoming.concat(apiResponse.results);
+        let newMoviesUpcoming = data.moviesUpcoming.concat(apiResponse.results);
         setData((oldData) => {
           return { ...oldData, moviesUpcoming: newMoviesUpcoming };
         });
@@ -97,7 +114,7 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        var newTv = data.tv.concat(apiResponse.results);
+        let newTv = data.tv.concat(apiResponse.results);
         setData((oldData) => {
           return { ...oldData, tv: newTv };
         });
@@ -118,9 +135,28 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        var newTvOnAir = data.tvOnAir.concat(apiResponse.results);
+        let newTvOnAir = data.tvOnAir.concat(apiResponse.results);
         setData((oldData) => {
           return { ...oldData, tvOnAir: newTvOnAir };
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getGenres = async (type) => {
+    setLoading(true);
+    await axios
+      .get(
+        `${Constant.DB_ENDPOINT}/genre/${type}/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+      )
+      .then((response) => {
+        const apiResponse = response.data;
+        let newGenres = apiResponse.genres;
+        setData((oldData) => {
+          return { ...oldData, genres: newGenres };
         });
         setLoading(false);
       })
@@ -139,7 +175,7 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        var newPeople = data.people.concat(apiResponse.results);
+        let newPeople = data.people.concat(apiResponse.results);
         setData((oldData) => {
           return { ...oldData, people: newPeople };
         });
@@ -212,6 +248,7 @@ const AppContextProvider = (props) => {
         getMoviesUpcoming,
         getTv,
         getTvOnAir,
+        getGenres,
         getPeople,
         clearState,
         saveToDB,

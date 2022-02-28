@@ -2,10 +2,11 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
 import MovieCard from "../../components/Cards/MovieCard";
+import Genres from "../../components/Genres";
 
 const Movies = () => {
   const {
-    data: { page, movies },
+    data: { page, movies, genreURLIds },
     loading,
     setData,
     getMovies,
@@ -36,13 +37,14 @@ const Movies = () => {
   );
 
   useEffect(() => {
-    getMovies(page);
-  }, [page]);
+    getMovies(page, genreURLIds);
+  }, [page, genreURLIds]);
 
   return (
     <div>
       <h1> Movies </h1>
-      <Grid templateColumns="repeat(1, 1fr)" gap={6}>
+      <Genres type="movie"/>
+      <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
         {movies &&
           movies.map((movie, index) => (
             <GridItem key={index} w="100%">
