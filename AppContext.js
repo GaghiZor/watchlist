@@ -41,14 +41,7 @@ const AppContextProvider = (props) => {
       page: 1,
       movies: [],
       moviesUpcoming: [],
-
-      genres: [],
-      selectedGenres: [],
-      genreURLIds: "",
-      oldGenreURLIds: "",
-
       people: [],
-
       tv: [],
       tvOnAir: [],
     });
