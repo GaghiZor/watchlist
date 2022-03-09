@@ -37,13 +37,19 @@ const Movies = () => {
   );
 
   useEffect(() => {
+    if (genreURLIds !== "") {
+      clearState();
+    }
+  }, []);
+
+  useEffect(() => {
     getMovies(page, genreURLIds);
   }, [page, genreURLIds]);
 
   return (
     <div>
       <h1> Movies </h1>
-      <Genres type="movie"/>
+      <Genres type="movie" />
       <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
         {movies &&
           movies.map((movie, index) => (

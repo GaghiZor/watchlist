@@ -73,66 +73,8 @@ const Header = () => {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={"full"}
-                  cursor={"pointer"}
-                  backgroundColor={"transparent"}
-                  minW={0}
-                >
-                  Movies
-                </MenuButton>
-                <MenuList>
-                  <Link href="/movies/popular-movies">
-                    <MenuItem>
-                      <a className="flex flex-row items-center">
-                        <FireIcon className="h-6 w-6" />
-                        <span className="ml-3">Popular</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                  <Link href="/movies/upcoming-movies">
-                    <MenuItem>
-                      <a className="flex flex-row items-center">
-                        <SpeakerphoneIcon className="h-6 w-6" />
-                        <span className="ml-3">Upcoming</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                </MenuList>
-              </Menu>
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={"full"}
-                  cursor={"pointer"}
-                  backgroundColor={"transparent"}
-                  minW={0}
-                >
-                  TV Shows
-                </MenuButton>
-                <MenuList>
-                  <Link href="/tv/tv">
-                    <MenuItem>
-                      <a className="flex flex-row items-center">
-                        <FireIcon className="h-6 w-6" />
-                        <span className="ml-3">Popular</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                  <Link href="/tv/tv-on-air">
-                    <MenuItem>
-                      <a className="flex flex-row items-center">
-                        <PlayIcon className="h-6 w-6" />
-                        <span className="ml-3">Airing</span>
-                      </a>
-                    </MenuItem>
-                  </Link>
-                </MenuList>
-              </Menu>
-              <Menu>
-                <Link href="/people/people">
+              <Box>
+                <Menu>
                   <MenuButton
                     as={Button}
                     rounded={"full"}
@@ -140,10 +82,70 @@ const Header = () => {
                     backgroundColor={"transparent"}
                     minW={0}
                   >
-                    <a className="text-base font-medium">People</a>
+                    Movies
                   </MenuButton>
-                </Link>
-              </Menu>
+                  <MenuList>
+                    <Link href="/movies/popular-movies">
+                      <MenuItem>
+                        <a className="flex flex-row items-center">
+                          <FireIcon className="h-6 w-6" />
+                          <span className="ml-3">Popular</span>
+                        </a>
+                      </MenuItem>
+                    </Link>
+                    <Link href="/movies/upcoming-movies">
+                      <MenuItem>
+                        <a className="flex flex-row items-center">
+                          <SpeakerphoneIcon className="h-6 w-6" />
+                          <span className="ml-3">Upcoming</span>
+                        </a>
+                      </MenuItem>
+                    </Link>
+                  </MenuList>
+                </Menu>
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rounded={"full"}
+                    cursor={"pointer"}
+                    backgroundColor={"transparent"}
+                    minW={0}
+                  >
+                    TV Shows
+                  </MenuButton>
+                  <MenuList>
+                    <Link href="/tv/tv">
+                      <MenuItem>
+                        <a className="flex flex-row items-center">
+                          <FireIcon className="h-6 w-6" />
+                          <span className="ml-3">Popular</span>
+                        </a>
+                      </MenuItem>
+                    </Link>
+                    <Link href="/tv/tv-on-air">
+                      <MenuItem>
+                        <a className="flex flex-row items-center">
+                          <PlayIcon className="h-6 w-6" />
+                          <span className="ml-3">Airing</span>
+                        </a>
+                      </MenuItem>
+                    </Link>
+                  </MenuList>
+                </Menu>
+                <Menu>
+                  <Link href="/people/people">
+                    <MenuButton
+                      as={Button}
+                      rounded={"full"}
+                      cursor={"pointer"}
+                      backgroundColor={"transparent"}
+                      minW={0}
+                    >
+                      <a className="text-base font-medium">People</a>
+                    </MenuButton>
+                  </Link>
+                </Menu>
+              </Box>
             </HStack>
           </HStack>
           {session ? (

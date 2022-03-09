@@ -38,16 +38,14 @@ const AppContextProvider = (props) => {
 
   const clearState = () => {
     setData({
-      page: 1,
-      movies: [],
-      moviesUpcoming: [],
-      people: [],
-      tv: [],
-      tvOnAir: [],
+      genres: [],
+      selectedGenres: [],
+      genreURLIds: "",
+      oldGenreURLIds: "",
     });
   };
 
-  const getMovies = async (page, genreURLIds) => {
+  const getMovies = async (page, genreURLIds = "") => {
     setLoading(true);
     await axios
       .get(
@@ -65,7 +63,11 @@ const AppContextProvider = (props) => {
           });
         } else {
           setData((oldData) => {
-            return { ...oldData, movies: apiResponse.results, oldGenreURLIds: genreURLIds };
+            return {
+              ...oldData,
+              movies: apiResponse.results,
+              oldGenreURLIds: genreURLIds,
+            };
           });
         }
 
@@ -76,20 +78,32 @@ const AppContextProvider = (props) => {
       });
   };
 
-  const getMoviesUpcoming = async (page) => {
+  const getMoviesUpcoming = async (page, genreURLIds = "") => {
     setLoading(true);
     await axios
       .get(
         `${Constant.DB_ENDPOINT}/movie/upcoming?api_key=${
           process.env.NEXT_PUBLIC_TMDB_API_KEY
-        }&page=${page || 1}`
+        }&page=${page || 1}&with_genres=${genreURLIds}`
       )
       .then((response) => {
         const apiResponse = response.data;
-        let newMoviesUpcoming = data.moviesUpcoming.concat(apiResponse.results);
-        setData((oldData) => {
-          return { ...oldData, moviesUpcoming: newMoviesUpcoming };
-        });
+        if (data.oldGenreURLIds === genreURLIds) {
+          let newMoviesUpcoming = data.moviesUpcoming.concat(
+            apiResponse.results
+          );
+          setData((oldData) => {
+            return { ...oldData, moviesUpcoming: newMoviesUpcoming };
+          });
+        } else {
+          setData((oldData) => {
+            return {
+              ...oldData,
+              moviesUpcoming: apiResponse.results,
+              oldGenreURLIds: genreURLIds,
+            };
+          });
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -97,20 +111,30 @@ const AppContextProvider = (props) => {
       });
   };
 
-  const getTv = async (page) => {
+  const getTv = async (page, genreURLIds = "") => {
     setLoading(true);
     await axios
       .get(
         `${Constant.DB_ENDPOINT}/tv/popular?api_key=${
           process.env.NEXT_PUBLIC_TMDB_API_KEY
-        }&page=${page || 1}`
+        }&page=${page || 1}&with_genres=${genreURLIds}`
       )
       .then((response) => {
         const apiResponse = response.data;
-        let newTv = data.tv.concat(apiResponse.results);
-        setData((oldData) => {
-          return { ...oldData, tv: newTv };
-        });
+        if (data.oldGenreURLIds === genreURLIds) {
+          let newTv = data.tv.concat(apiResponse.results);
+          setData((oldData) => {
+            return { ...oldData, tv: newTv };
+          });
+        } else {
+          setData((oldData) => {
+            return {
+              ...oldData,
+              tv: apiResponse.results,
+              oldGenreURLIds: genreURLIds,
+            };
+          });
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -118,20 +142,30 @@ const AppContextProvider = (props) => {
       });
   };
 
-  const getTvOnAir = async (page) => {
+  const getTvOnAir = async (page, genreURLIds = "") => {
     setLoading(true);
     await axios
       .get(
         `${Constant.DB_ENDPOINT}/tv/on_the_air?api_key=${
           process.env.NEXT_PUBLIC_TMDB_API_KEY
-        }&page=${page || 1}`
+        }&page=${page || 1}&with_genres=${genreURLIds}`
       )
       .then((response) => {
         const apiResponse = response.data;
-        let newTvOnAir = data.tvOnAir.concat(apiResponse.results);
-        setData((oldData) => {
-          return { ...oldData, tvOnAir: newTvOnAir };
-        });
+        if (data.oldGenreURLIds === genreURLIds) {
+          let newTvOnAir = data.tv.concat(apiResponse.results);
+          setData((oldData) => {
+            return { ...oldData, tvOnAir: newTvOnAir };
+          });
+        } else {
+          setData((oldData) => {
+            return {
+              ...oldData,
+              tvOnAir: apiResponse.results,
+              oldGenreURLIds: genreURLIds,
+            };
+          });
+        }
         setLoading(false);
       })
       .catch((error) => {

@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import AppContextProvider from "../AppContext";
-import Header from "../components/Header";
+// import Header from "../components/Header";
 import Head from "next/head";
 import Footer from "../components/Footer";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
