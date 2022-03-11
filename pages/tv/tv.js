@@ -19,6 +19,7 @@ const Tv = () => {
   const lastElementRef = useCallback(
     (node) => {
       if (loading) return;
+      if (tv.length < 20) return;
       if (observer.current) observer.current.disconnect();
       if (page === 40) {
         setPagesReached(true);
@@ -37,12 +38,6 @@ const Tv = () => {
   );
 
   useEffect(() => {
-    if (genreURLIds !== "") {
-      clearState();
-    }
-  }, []);
-
-  useEffect(() => {
     getTv(page, genreURLIds);
   }, [page, genreURLIds]);
 
@@ -58,7 +53,7 @@ const Tv = () => {
             </GridItem>
           ))}
       </Grid>
-      {pagesReached ? (
+      {pagesReached || tv.length < 20 ? (
         <div>No more pages to load</div>
       ) : (
         <div>Loading ... </div>

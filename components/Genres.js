@@ -44,9 +44,9 @@ const Genres = ({ type }) => {
   useEffect(() => {
     getGenres(type);
 
-    // return () => {
-    //   clearState();
-    // };
+    return () => {
+      clearState();
+    };
   }, []);
 
   return (
@@ -72,6 +72,8 @@ const Genres = ({ type }) => {
             {genre.name}
           </div>
         ))}
+
+        {console.log(selectedGenres)}
     </Flex>
   );
 };

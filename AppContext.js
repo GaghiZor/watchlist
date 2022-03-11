@@ -37,11 +37,18 @@ const AppContextProvider = (props) => {
   });
 
   const clearState = () => {
-    setData({
-      genres: [],
-      selectedGenres: [],
-      genreURLIds: "",
-      oldGenreURLIds: "",
+    setData((oldData) => {
+      return {
+        ...oldData,
+        page: 1,
+        movies: [],
+        moviesUpcoming: [],
+        tv: [],
+        tvOnAir: [],
+        genres: [],
+        selectedGenres: [],
+        genreURLIds: "",
+      };
     });
   };
 
@@ -88,7 +95,7 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === genreURLIds) {
+        if (data.oldGenreURLIds === genreURLIds && data.page > 1) {
           let newMoviesUpcoming = data.moviesUpcoming.concat(
             apiResponse.results
           );
@@ -121,7 +128,7 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === genreURLIds) {
+        if (data.oldGenreURLIds === genreURLIds && data.page > 1) {
           let newTv = data.tv.concat(apiResponse.results);
           setData((oldData) => {
             return { ...oldData, tv: newTv };
@@ -152,7 +159,7 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === genreURLIds) {
+        if (data.oldGenreURLIds === genreURLIds && data.page > 1) {
           let newTvOnAir = data.tv.concat(apiResponse.results);
           setData((oldData) => {
             return { ...oldData, tvOnAir: newTvOnAir };
