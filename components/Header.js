@@ -145,6 +145,19 @@ const Header = () => {
                     </MenuButton>
                   </Link>
                 </Menu>
+                <Menu>
+                  <Link href="/search">
+                    <MenuButton
+                      as={Button}
+                      rounded={"full"}
+                      cursor={"pointer"}
+                      backgroundColor={"transparent"}
+                      minW={0}
+                    >
+                      <a className="text-base font-medium">Search</a>
+                    </MenuButton>
+                  </Link>
+                </Menu>
               </Box>
             </HStack>
           </HStack>
