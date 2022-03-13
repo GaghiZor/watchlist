@@ -24,6 +24,7 @@ const AppContextProvider = (props) => {
     page: 1, // Default page number
     movies: [],
     moviesUpcoming: [],
+    newMovies: [],
 
     genres: [],
     selectedGenres: [],
@@ -34,6 +35,7 @@ const AppContextProvider = (props) => {
 
     tv: [],
     tvOnAir: [],
+    newTv: [],
   });
 
   const clearState = () => {
@@ -43,11 +45,14 @@ const AppContextProvider = (props) => {
         page: 1,
         movies: [],
         moviesUpcoming: [],
+        newMovies: [],
         tv: [],
         tvOnAir: [],
+        newTv: [],
         genres: [],
         selectedGenres: [],
         genreURLIds: "",
+        oldGenreURLIds: "",
       };
     });
   };
@@ -64,15 +69,20 @@ const AppContextProvider = (props) => {
         const apiResponse = response.data;
         // Save old data and rewrite only new data
         if (data.oldGenreURLIds === genreURLIds) {
-          let newMovies = data.movies.concat(apiResponse.results);
+          let concatMovies = data.movies.concat(apiResponse.results);
           setData((oldData) => {
-            return { ...oldData, movies: newMovies };
+            return {
+              ...oldData,
+              movies: concatMovies,
+              newMovies: apiResponse.results,
+            };
           });
         } else {
           setData((oldData) => {
             return {
               ...oldData,
               movies: apiResponse.results,
+              newMovies: apiResponse.results,
               oldGenreURLIds: genreURLIds,
             };
           });
@@ -95,18 +105,23 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === genreURLIds && data.page > 1) {
-          let newMoviesUpcoming = data.moviesUpcoming.concat(
+        if (data.oldGenreURLIds === genreURLIds) {
+          let concatMoviesUpcoming = data.moviesUpcoming.concat(
             apiResponse.results
           );
           setData((oldData) => {
-            return { ...oldData, moviesUpcoming: newMoviesUpcoming };
+            return {
+              ...oldData,
+              moviesUpcoming: concatMoviesUpcoming,
+              newMovies: apiResponse.results,
+            };
           });
         } else {
           setData((oldData) => {
             return {
               ...oldData,
               moviesUpcoming: apiResponse.results,
+              newMovies: apiResponse.results,
               oldGenreURLIds: genreURLIds,
             };
           });
@@ -128,16 +143,17 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === genreURLIds && data.page > 1) {
-          let newTv = data.tv.concat(apiResponse.results);
+        if (data.oldGenreURLIds === genreURLIds) {
+          let concatTv = data.tv.concat(apiResponse.results);
           setData((oldData) => {
-            return { ...oldData, tv: newTv };
+            return { ...oldData, tv: concatTv, newTv: apiResponse.results };
           });
         } else {
           setData((oldData) => {
             return {
               ...oldData,
               tv: apiResponse.results,
+              newTv: apiResponse.results,
               oldGenreURLIds: genreURLIds,
             };
           });
@@ -159,16 +175,21 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === genreURLIds && data.page > 1) {
-          let newTvOnAir = data.tv.concat(apiResponse.results);
+        if (data.oldGenreURLIds === genreURLIds) {
+          let concatTvOnAir = data.tvOnAir.concat(apiResponse.results);
           setData((oldData) => {
-            return { ...oldData, tvOnAir: newTvOnAir };
+            return {
+              ...oldData,
+              tvOnAir: concatTvOnAir,
+              newTv: apiResponse.results,
+            };
           });
         } else {
           setData((oldData) => {
             return {
               ...oldData,
               tvOnAir: apiResponse.results,
+              newTv: apiResponse.results,
               oldGenreURLIds: genreURLIds,
             };
           });

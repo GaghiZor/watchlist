@@ -6,7 +6,7 @@ import Genres from "../../components/Genres";
 
 const TvOnAir = () => {
   const {
-    data: { page, tvOnAir, genreURLIds },
+    data: { page, tvOnAir, newTv, genreURLIds },
     loading,
     setData,
     getTvOnAir,
@@ -18,7 +18,7 @@ const TvOnAir = () => {
   const lastElementRef = useCallback(
     (node) => {
       if (loading) return;
-      if (tvOnAir.length < 20) return;
+      if (newTv.length < 20 && newTv.length !== 0) return;
       if (observer.current) observer.current.disconnect();
       if (page === 40) {
         setPagesReached(true);
@@ -46,13 +46,13 @@ const TvOnAir = () => {
       <Genres type="tv" />
       <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
         {tvOnAir &&
-          tvOnAir.map((show, index) => (
-            <GridItem key={index} w="100%">
-              <TvCard ref={lastElementRef} key={index} media={show} />
+          tvOnAir.map((show) => (
+            <GridItem key={show.id} w="100%">
+              <TvCard ref={lastElementRef} key={show.id} media={show} />
             </GridItem>
           ))}
       </Grid>
-      {pagesReached || tvOnAir.length < 20 ? (
+      {pagesReached || newTv.length < 20 ? (
         <div>No more pages to load</div>
       ) : (
         <div>Loading ... </div>

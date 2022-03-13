@@ -72,8 +72,6 @@ const Genres = ({ type }) => {
             {genre.name}
           </div>
         ))}
-
-        {console.log(selectedGenres)}
     </Flex>
   );
 };

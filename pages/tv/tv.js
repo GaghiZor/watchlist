@@ -6,11 +6,10 @@ import Genres from "../../components/Genres";
 
 const Tv = () => {
   const {
-    data: { page, tv, genreURLIds },
+    data: { page, tv, newTv, genreURLIds },
     loading,
     setData,
     getTv,
-    clearState,
   } = useContext(AppContext);
 
   const [pagesReached, setPagesReached] = useState(false);
@@ -19,7 +18,7 @@ const Tv = () => {
   const lastElementRef = useCallback(
     (node) => {
       if (loading) return;
-      if (tv.length < 20) return;
+      if (newTv.length < 20 && newTv.length !== 0) return;
       if (observer.current) observer.current.disconnect();
       if (page === 40) {
         setPagesReached(true);
@@ -47,13 +46,13 @@ const Tv = () => {
       <Genres type="tv" />
       <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
         {tv &&
-          tv.map((show, index) => (
-            <GridItem key={index} w="100%">
-              <TvCard ref={lastElementRef} key={index} media={show} />
+          tv.map((show) => (
+            <GridItem key={show.id} w="100%">
+              <TvCard ref={lastElementRef} key={show.id} media={show} />
             </GridItem>
           ))}
       </Grid>
-      {pagesReached || tv.length < 20 ? (
+      {pagesReached || newTv.length < 20 ? (
         <div>No more pages to load</div>
       ) : (
         <div>Loading ... </div>

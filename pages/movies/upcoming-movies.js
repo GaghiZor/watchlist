@@ -6,7 +6,7 @@ import Genres from "../../components/Genres";
 
 const UpcomingMovies = () => {
   const {
-    data: { page, moviesUpcoming, genreURLIds },
+    data: { page, moviesUpcoming, newMovies, genreURLIds },
     loading,
     setData,
     getMoviesUpcoming,
@@ -19,7 +19,7 @@ const UpcomingMovies = () => {
   const lastElementRef = useCallback(
     (node) => {
       if (loading) return;
-      if (moviesUpcoming.length < 20) return;
+      if (newMovies.length < 20 && newMovies.length !== 0) return;
       if (observer.current) observer.current.disconnect();
       if (page === 40) {
         setPagesReached(true);
@@ -47,13 +47,13 @@ const UpcomingMovies = () => {
       <Genres type="movie" />
       <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
         {moviesUpcoming &&
-          moviesUpcoming.map((movie, index) => (
-            <GridItem key={index} w="100%">
-              <MovieCard ref={lastElementRef} key={index} media={movie} />
+          moviesUpcoming.map((movie) => (
+            <GridItem key={movie.id} w="100%">
+              <MovieCard ref={lastElementRef} key={movie.id} media={movie} />
             </GridItem>
           ))}
       </Grid>
-      {pagesReached || moviesUpcoming.length < 20 ? (
+      {pagesReached || newMovies.length < 20 ? (
         <div>No more pages to load</div>
       ) : (
         <div>Loading ... </div>
