@@ -1,20 +1,41 @@
 import ContentWrapper from "./ContentWrapper";
 import Header from "./Header";
 import Footer from "./Footer";
+import { Box, Center, Flex, Square, Stack, Text } from "@chakra-ui/react";
+import Genres from "./Genres";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../AppContext";
 
 const Layout = ({ children }) => {
+  const router = useRouter();
+  const { asPath } = router;
+  const [genreType, setGenreType] = useState("");
+  const { clearState } = useContext(AppContext);
+
+  useEffect(() => {
+    if (
+      asPath.includes("/popular-movies") ||
+      asPath.includes("/upcoming-movies")
+    ) {
+      setGenreType("movie");
+    } else if (asPath.includes("/tv/tv") || asPath.includes("/tv-on-air")) {
+      setGenreType("tv");
+    } else {
+      setGenreType("");
+    }
+  }, [asPath]);
+
   return (
     <>
-      <style jsx>{`
-        .content-wrapper {
-          width: 100%;
-
-          padding-top: 6rem;
-          padding-bottom: 6rem;
-        }
-      `}</style>
       <Header />
-      <main className="content-wrapper">{children}</main>
+      <Stack
+        direction={["column", "row"]}
+        spacing="12px"
+        className="pt-24 pb-24"
+      >
+        <ContentWrapper children={children} genreType={genreType} />
+      </Stack>
       <Footer />
     </>
   );

@@ -44,11 +44,10 @@ const UpcomingMovies = () => {
   return (
     <div>
       <h1> Upcoming Movies </h1>
-      <Genres type="movie" />
       <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
         {moviesUpcoming &&
-          moviesUpcoming.map((movie) => (
-            <GridItem key={movie.id} w="100%">
+          moviesUpcoming.map((movie, index) => (
+            <GridItem key={index} w="100%">
               <MovieCard ref={lastElementRef} key={movie.id} media={movie} />
             </GridItem>
           ))}

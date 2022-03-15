@@ -1,8 +1,19 @@
-const ContentWrapper = ({ children }) => {
+import { Box } from "@chakra-ui/react";
+import Genres from "./Genres";
+
+const ContentWrapper = ({ children, genreType }) => {
   return (
     <>
-      <div className="content-wrapper">{children}</div>
-      
+      <Box w="10vw" h="auto">
+        {genreType === "movie" || genreType === "tv" ? (
+          <Genres type={genreType} />
+        ) : null}
+      </Box>
+      <Box w="80vw" h="auto">
+        {children}
+      </Box>
+      <Box w="10vw" h="auto">
+      </Box>
     </>
   );
 };

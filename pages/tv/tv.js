@@ -43,11 +43,10 @@ const Tv = () => {
   return (
     <div>
       <h1> TV Shows </h1>
-      <Genres type="tv" />
       <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
         {tv &&
-          tv.map((show) => (
-            <GridItem key={show.id} w="100%">
+          tv.map((show, index) => (
+            <GridItem key={index} w="100%">
               <TvCard ref={lastElementRef} key={show.id} media={show} />
             </GridItem>
           ))}

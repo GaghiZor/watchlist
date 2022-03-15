@@ -116,7 +116,7 @@ const Search = () => {
         />
         <Input
           size="md"
-          width="80vw"
+          width="100vw"
           placeholder="Search"
           value={searchQuery}
           onChange={(e) => {

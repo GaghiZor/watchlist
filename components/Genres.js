@@ -47,7 +47,7 @@ const Genres = ({ type }) => {
     return () => {
       clearState();
     };
-  }, []);
+  }, [type]);
 
   return (
     <Flex flexDirection={"row"} m={"2"} flexWrap={"wrap"}>
