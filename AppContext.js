@@ -39,21 +39,23 @@ const AppContextProvider = (props) => {
   });
 
   const clearState = () => {
-    setData((oldData) => {
-      return {
-        ...oldData,
-        page: 1,
-        movies: [],
-        moviesUpcoming: [],
-        newMovies: [],
-        tv: [],
-        tvOnAir: [],
-        newTv: [],
-        genres: [],
-        selectedGenres: [],
-        genreURLIds: "",
-        oldGenreURLIds: "",
-      };
+    setData({
+      page: 1,
+
+      movies: [],
+      moviesUpcoming: [],
+      newMovies: [],
+
+      tv: [],
+      tvOnAir: [],
+      newTv: [],
+
+      genres: [],
+      selectedGenres: [],
+      genreURLIds: "",
+      oldGenreURLIds: "",
+
+      people: [],
     });
   };
 
@@ -230,10 +232,16 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        let newPeople = data.people.concat(apiResponse.results);
-        setData((oldData) => {
-          return { ...oldData, people: newPeople };
-        });
+        if (data.people.length > 0) {
+          let concatPeople = data.people.concat(apiResponse.results);
+          setData((oldData) => {
+            return { ...oldData, people: concatPeople };
+          });
+        } else {
+          setData((oldData) => {
+            return { ...oldData, people: apiResponse.results };
+          });
+        }
         setLoading(false);
       })
       .catch((error) => {
