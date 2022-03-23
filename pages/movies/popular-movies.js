@@ -43,7 +43,6 @@ const Movies = () => {
 
   return (
     <div>
-      <h1> Movies </h1>
       <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
         {movies &&
           movies.map((movie, index) => (

@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex, Select } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../AppContext";
 import useGenre from "./Hooks/useGenre";
@@ -50,30 +50,64 @@ const Genres = ({ type }) => {
   }, [type]);
 
   return (
-    <Flex flexDirection={"row"} m={"2"} flexWrap={"wrap"}>
-      {selectedGenres &&
-        selectedGenres.map((selectedGenre) => (
-          <div
-            key={selectedGenre.id}
-            className="cursor-pointer text-cyan-500 m-2"
-            onClick={() => handleRemoveGenre(selectedGenre)}
-          >
-            {selectedGenre.name}
-          </div>
-        ))}
+    <>
+      <Flex flexDirection="column" flexWrap={"wrap"}>
+        {selectedGenres.length > 0 ? (
+          <Box borderRadius="lg" borderWidth="5px">
+            {selectedGenres &&
+              selectedGenres.map((selectedGenre) => (
+                <div
+                  key={selectedGenre.id}
+                  className="cursor-pointer text-cyan-500 m-2"
+                  onClick={() => handleRemoveGenre(selectedGenre)}
+                >
+                  {selectedGenre.name}
+                </div>
+              ))}
+          </Box>
+        ) : null}
 
-      {genres &&
-        genres.map((genre) => (
-          <div
-            key={genre.id}
-            className="cursor-pointer m-2"
-            onClick={() => handleAddGenre(genre)}
-          >
-            {genre.name}
-          </div>
-        ))}
-    </Flex>
+        <Box borderRadius="lg" color="white" borderWidth="5px">
+          {genres &&
+            genres.map((genre) => (
+              <div
+                key={genre.id}
+                className="cursor-pointer m-2"
+                onClick={() => handleAddGenre(genre)}
+              >
+                {genre.name}
+              </div>
+            ))}
+        </Box>
+      </Flex>
+    </>
   );
 };
 
 export default Genres;
+
+{
+  /* <Flex flexDirection={"row"} m={"2"} flexWrap={"wrap"}>
+{selectedGenres &&
+  selectedGenres.map((selectedGenre) => (
+    <div
+      key={selectedGenre.id}
+      className="cursor-pointer text-cyan-500 m-2"
+      onClick={() => handleRemoveGenre(selectedGenre)}
+    >
+      {selectedGenre.name}
+    </div>
+  ))}
+
+{genres &&
+  genres.map((genre) => (
+    <div
+      key={genre.id}
+      className="cursor-pointer m-2"
+      onClick={() => handleAddGenre(genre)}
+    >
+      {genre.name}
+    </div>
+  ))}
+</Flex> */
+}
