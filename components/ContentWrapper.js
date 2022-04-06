@@ -1,19 +1,14 @@
-import { Box, Flex } from "@chakra-ui/react";
-import Filter from "./Filter";
-import Genres from "./Genres";
+import { Box, Stack } from "@chakra-ui/react";
 
-const ContentWrapper = ({ children, genreType }) => {
+const ContentWrapper = ({ children }) => {
   return (
-    <>
+    <Stack direction={["column", "row"]} spacing="12px" className="pt-24 pb-24">
       <Box w="10vw" h="auto"></Box>
       <Box w="80vw" h="auto">
-        <Flex>
-          <Filter genreType={genreType} />
-          {children}
-        </Flex>
+        {children}
       </Box>
       <Box w="10vw" h="auto"></Box>
-    </>
+    </Stack>
   );
 };
 

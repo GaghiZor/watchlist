@@ -85,29 +85,3 @@ const Genres = ({ type }) => {
 };
 
 export default Genres;
-
-{
-  /* <Flex flexDirection={"row"} m={"2"} flexWrap={"wrap"}>
-{selectedGenres &&
-  selectedGenres.map((selectedGenre) => (
-    <div
-      key={selectedGenre.id}
-      className="cursor-pointer text-cyan-500 m-2"
-      onClick={() => handleRemoveGenre(selectedGenre)}
-    >
-      {selectedGenre.name}
-    </div>
-  ))}
-
-{genres &&
-  genres.map((genre) => (
-    <div
-      key={genre.id}
-      className="cursor-pointer m-2"
-      onClick={() => handleAddGenre(genre)}
-    >
-      {genre.name}
-    </div>
-  ))}
-</Flex> */
-}

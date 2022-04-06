@@ -1,17 +1,14 @@
 import ContentWrapper from "./ContentWrapper";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Box, Center, Flex, Square, Stack, Text } from "@chakra-ui/react";
-import Genres from "./Genres";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../AppContext";
+import { useEffect, useState } from "react";
+import ContentWrapperWithMenu from "./ContentWrapperWithMenu";
 
 const Layout = ({ children }) => {
   const router = useRouter();
   const { asPath } = router;
   const [genreType, setGenreType] = useState("");
-  const { clearState } = useContext(AppContext);
 
   useEffect(() => {
     if (
@@ -26,16 +23,21 @@ const Layout = ({ children }) => {
     }
   }, [asPath]);
 
+  if (genreType === "") {
+    return (
+      <>
+        <Header />
+          <ContentWrapper children={children} />
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
-      <Stack
-        direction={["column", "row"]}
-        spacing="12px"
-        className="pt-24 pb-24"
-      >
-        <ContentWrapper children={children} genreType={genreType} />
-      </Stack>
+      <ContentWrapperWithMenu children={children} genreType={genreType} />
+
       <Footer />
     </>
   );
