@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
     return (
       <>
         <Header />
-          <ContentWrapper children={children} />
+        <ContentWrapper children={children} />
         <Footer />
       </>
     );
@@ -37,7 +37,6 @@ const Layout = ({ children }) => {
     <>
       <Header />
       <ContentWrapperWithMenu children={children} genreType={genreType} />
-
       <Footer />
     </>
   );

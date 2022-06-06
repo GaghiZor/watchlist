@@ -36,6 +36,8 @@ const AppContextProvider = (props) => {
     tv: [],
     tvOnAir: [],
     newTv: [],
+
+    reload: false,
   });
 
   const clearState = () => {
@@ -56,21 +58,23 @@ const AppContextProvider = (props) => {
       oldGenreURLIds: "",
 
       people: [],
+
+      reload: false,
     });
   };
 
-  const getMovies = async (page, genreURLIds = "") => {
+  const getMovies = async (page) => {
     setLoading(true);
     await axios
       .get(
         `${Constant.DB_ENDPOINT}/movie/popular?api_key=${
           process.env.NEXT_PUBLIC_TMDB_API_KEY
-        }&page=${page || 1}&with_genres=${genreURLIds}`
+        }&page=${page || 1}&with_genres=${data.genreURLIds}`
       )
       .then((response) => {
         const apiResponse = response.data;
         // Save old data and rewrite only new data
-        if (data.oldGenreURLIds === genreURLIds) {
+        if (data.oldGenreURLIds === data.genreURLIds && page > 1) {
           let concatMovies = data.movies.concat(apiResponse.results);
           setData((oldData) => {
             return {
@@ -85,29 +89,35 @@ const AppContextProvider = (props) => {
               ...oldData,
               movies: apiResponse.results,
               newMovies: apiResponse.results,
-              oldGenreURLIds: genreURLIds,
+              oldGenreURLIds: data.genreURLIds,
             };
           });
         }
 
         setLoading(false);
+        setData((oldData) => {
+          return {
+            ...oldData,
+            reload: false,
+          };
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const getMoviesUpcoming = async (page, genreURLIds = "") => {
+  const getMoviesUpcoming = async (page) => {
     setLoading(true);
     await axios
       .get(
         `${Constant.DB_ENDPOINT}/movie/upcoming?api_key=${
           process.env.NEXT_PUBLIC_TMDB_API_KEY
-        }&page=${page || 1}&with_genres=${genreURLIds}`
+        }&page=${page || 1}&with_genres=${data.genreURLIds}`
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === genreURLIds) {
+        if (data.oldGenreURLIds === data.genreURLIds) {
           let concatMoviesUpcoming = data.moviesUpcoming.concat(
             apiResponse.results
           );
@@ -124,7 +134,7 @@ const AppContextProvider = (props) => {
               ...oldData,
               moviesUpcoming: apiResponse.results,
               newMovies: apiResponse.results,
-              oldGenreURLIds: genreURLIds,
+              oldGenreURLIds: oldData.genreURLIds,
             };
           });
         }
@@ -248,6 +258,14 @@ const AppContextProvider = (props) => {
         console.log(error);
       });
   };
+
+  /*
+  Create function to save movies, tv, people separately
+
+  function addMovieToWatchList(movie) {}
+  function addTvToWatchList(tv) {}
+  function addPersonToFavorites(person) {}
+*/
 
   const saveToDB = async (media) => {
     if (loading) return;

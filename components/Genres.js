@@ -11,14 +11,18 @@ const Genres = ({ type }) => {
     clearState,
   } = useContext(AppContext);
 
+  /*
+    Adauga buton de filtrare dupa gen
+    
+  */
+
   const handleAddGenre = (genre) => {
     setData((oldData) => {
       return {
         ...oldData,
-        selectedGenres: [...oldData.selectedGenres, genre],
-        genres: [...oldData.genres.filter((g) => g.id !== genre.id)],
-        page: 1,
-        genreURLIds: useGenre([...oldData.selectedGenres, genre]),
+        selectedGenres: [...selectedGenres, genre],
+        genres: [...genres.filter((g) => g.id !== genre.id)],
+        genreURLIds: useGenre([...selectedGenres, genre]),
         oldGenreURLIds: oldData.genreURLIds,
       };
     });
@@ -29,12 +33,11 @@ const Genres = ({ type }) => {
       return {
         ...oldData,
         selectedGenres: [
-          ...oldData.selectedGenres.filter((g) => g.id !== genre.id),
+          ...selectedGenres.filter((g) => g.id !== genre.id),
         ],
-        genres: [...oldData.genres, genre],
-        page: 1,
+        genres: [...genres, genre],
         genreURLIds: useGenre([
-          ...oldData.selectedGenres.filter((g) => g.id !== genre.id),
+          ...selectedGenres.filter((g) => g.id !== genre.id),
         ]),
         oldGenreURLIds: oldData.genreURLIds,
       };
@@ -67,7 +70,7 @@ const Genres = ({ type }) => {
           </Box>
         ) : null}
 
-        <Box borderRadius="lg" color="white" borderWidth="5px">
+        <Box borderRadius="lg" borderWidth="5px">
           {genres &&
             genres.map((genre) => (
               <div

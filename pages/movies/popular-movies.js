@@ -2,11 +2,10 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
 import MovieCard from "../../components/Cards/MovieCard";
-import Genres from "../../components/Genres";
 
 const Movies = () => {
   const {
-    data: { page, movies, newMovies, genreURLIds },
+    data: { page, movies, newMovies, reload },
     loading,
     setData,
     getMovies,
@@ -38,8 +37,9 @@ const Movies = () => {
   );
 
   useEffect(() => {
-    getMovies(page, genreURLIds);
-  }, [page, genreURLIds]);
+    getMovies(page);
+    console.log(page);
+  }, [page, reload]);
 
   return (
     <div>
