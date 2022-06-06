@@ -2,11 +2,10 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
 import TvCard from "../../components/Cards/TvCard";
-import Genres from "../../components/Genres";
 
 const TvOnAir = () => {
   const {
-    data: { page, tvOnAir, newTv, genreURLIds },
+    data: { page, tvOnAir, newTv, reload },
     loading,
     setData,
     getTvOnAir,
@@ -37,8 +36,8 @@ const TvOnAir = () => {
   );
 
   useEffect(() => {
-    getTvOnAir(page, genreURLIds);
-  }, [page, genreURLIds]);
+    getTvOnAir(page);
+  }, [page, reload]);
 
   return (
     <div>

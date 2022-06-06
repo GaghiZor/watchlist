@@ -6,7 +6,6 @@ import Genres from "./Genres";
 const LeftMenu = ({ genreType }) => {
 
   const {
-    data: { reload },
     setData,
   } = useContext(AppContext);
 

@@ -117,7 +117,7 @@ const AppContextProvider = (props) => {
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === data.genreURLIds) {
+        if (data.oldGenreURLIds === data.genreURLIds && page > 1) {
           let concatMoviesUpcoming = data.moviesUpcoming.concat(
             apiResponse.results
           );
@@ -139,23 +139,29 @@ const AppContextProvider = (props) => {
           });
         }
         setLoading(false);
+        setData((oldData) => {
+          return {
+            ...oldData,
+            reload: false,
+          };
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const getTv = async (page, genreURLIds = "") => {
+  const getTv = async (page) => {
     setLoading(true);
     await axios
       .get(
         `${Constant.DB_ENDPOINT}/tv/popular?api_key=${
           process.env.NEXT_PUBLIC_TMDB_API_KEY
-        }&page=${page || 1}&with_genres=${genreURLIds}`
+        }&page=${page || 1}&with_genres=${data.genreURLIds}`
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === genreURLIds) {
+        if (data.oldGenreURLIds === data.genreURLIds && page > 1) {
           let concatTv = data.tv.concat(apiResponse.results);
           setData((oldData) => {
             return { ...oldData, tv: concatTv, newTv: apiResponse.results };
@@ -166,28 +172,34 @@ const AppContextProvider = (props) => {
               ...oldData,
               tv: apiResponse.results,
               newTv: apiResponse.results,
-              oldGenreURLIds: genreURLIds,
+              oldGenreURLIds: data.genreURLIds,
             };
           });
         }
         setLoading(false);
+        setData((oldData) => {
+          return {
+            ...oldData,
+            reload: false,
+          };
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const getTvOnAir = async (page, genreURLIds = "") => {
+  const getTvOnAir = async (page) => {
     setLoading(true);
     await axios
       .get(
         `${Constant.DB_ENDPOINT}/tv/on_the_air?api_key=${
           process.env.NEXT_PUBLIC_TMDB_API_KEY
-        }&page=${page || 1}&with_genres=${genreURLIds}`
+        }&page=${page || 1}&with_genres=${data.genreURLIds}`
       )
       .then((response) => {
         const apiResponse = response.data;
-        if (data.oldGenreURLIds === genreURLIds) {
+        if (data.oldGenreURLIds === data.genreURLIds && page > 1) {
           let concatTvOnAir = data.tvOnAir.concat(apiResponse.results);
           setData((oldData) => {
             return {
@@ -202,11 +214,17 @@ const AppContextProvider = (props) => {
               ...oldData,
               tvOnAir: apiResponse.results,
               newTv: apiResponse.results,
-              oldGenreURLIds: genreURLIds,
+              oldGenreURLIds: data.genreURLIds,
             };
           });
         }
         setLoading(false);
+        setData((oldData) => {
+          return {
+            ...oldData,
+            reload: false,
+          };
+        });
       })
       .catch((error) => {
         console.log(error);

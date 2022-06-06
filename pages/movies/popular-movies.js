@@ -9,7 +9,6 @@ const Movies = () => {
     loading,
     setData,
     getMovies,
-    clearState,
   } = useContext(AppContext);
 
   const [pagesReached, setPagesReached] = useState(false);
@@ -38,8 +37,9 @@ const Movies = () => {
 
   useEffect(() => {
     getMovies(page);
-    console.log(page);
   }, [page, reload]);
+
+  /* Cards must have the same height */
 
   return (
     <div>

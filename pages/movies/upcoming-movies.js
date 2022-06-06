@@ -2,15 +2,13 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
 import MovieCard from "../../components/Cards/MovieCard";
-import Genres from "../../components/Genres";
 
 const UpcomingMovies = () => {
   const {
-    data: { page, moviesUpcoming, newMovies, genreURLIds },
+    data: { page, moviesUpcoming, newMovies, reload },
     loading,
     setData,
     getMoviesUpcoming,
-    clearState,
   } = useContext(AppContext);
 
   const [pagesReached, setPagesReached] = useState(false);
@@ -38,8 +36,8 @@ const UpcomingMovies = () => {
   );
 
   useEffect(() => {
-    getMoviesUpcoming(page, genreURLIds);
-  }, [page, genreURLIds]);
+    getMoviesUpcoming(page);
+  }, [page, reload]);
 
   return (
     <div>

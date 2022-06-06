@@ -5,14 +5,16 @@ import useGenre from "./Hooks/useGenre";
 
 const Genres = ({ type }) => {
   const {
-    data: { page, genres, selectedGenres },
+    data: { genres, selectedGenres },
     getGenres,
     setData,
     clearState,
   } = useContext(AppContext);
 
   /*
-    Adauga buton de filtrare dupa gen
+    Adauga buton de filtrare dupa gen - DONE
+
+
     
   */
 
