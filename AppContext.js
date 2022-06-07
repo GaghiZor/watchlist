@@ -113,7 +113,7 @@ const AppContextProvider = (props) => {
       .get(
         `${Constant.DB_ENDPOINT}/movie/upcoming?api_key=${
           process.env.NEXT_PUBLIC_TMDB_API_KEY
-        }&page=${page || 1}&with_genres=${data.genreURLIds}`
+        }&page=${page || 1}&with_genres=${data.genreURLIds}&region=US`
       )
       .then((response) => {
         const apiResponse = response.data;

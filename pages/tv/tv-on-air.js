@@ -1,7 +1,8 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { GridItem } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
 import TvCard from "../../components/Cards/TvCard";
+import MediaGrid from "../../components/MediaGrid";
 
 const TvOnAir = () => {
   const {
@@ -41,20 +42,14 @@ const TvOnAir = () => {
 
   return (
     <div>
-      <h1> TV Shows currenty on air </h1>
-      <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
+      <MediaGrid loading={loading} pagesReached={pagesReached} totalMedia={newTv.length} pageTitle={"TV Shows Currently Airing"}>
         {tvOnAir &&
           tvOnAir.map((show, index) => (
             <GridItem key={index} w="100%">
               <TvCard ref={lastElementRef} key={show.id} media={show} />
             </GridItem>
           ))}
-      </Grid>
-      {pagesReached || newTv.length < 20 ? (
-        <div>No more pages to load</div>
-      ) : (
-        <div>Loading ... </div>
-      )}
+      </MediaGrid>
     </div>
   );
 };

@@ -1,7 +1,8 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { GridItem } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
 import MovieCard from "../../components/Cards/MovieCard";
+import MediaGrid from "../../components/MediaGrid";
 
 const Movies = () => {
   const {
@@ -43,19 +44,14 @@ const Movies = () => {
 
   return (
     <div>
-      <Grid templateColumns="repeat(5, 1fr)" gap={6} mx={"20"}>
+      <MediaGrid loading={loading} pagesReached={pagesReached} totalMedia={newMovies.length} pageTitle={"Popular Movies"}>
         {movies &&
           movies.map((movie, index) => (
             <GridItem key={index} w="100%">
               <MovieCard ref={lastElementRef} key={movie.id} media={movie} />
             </GridItem>
           ))}
-      </Grid>
-      {pagesReached || newMovies.length < 20 ? (
-        <div>No more pages to load</div>
-      ) : (
-        <div>Loading ... </div>
-      )}
+      </MediaGrid>
     </div>
   );
 };
