@@ -40,6 +40,14 @@ const AppContextProvider = (props) => {
     reload: false,
   });
 
+  const [searchData, setSearchData] = useState({
+    page: 1, // Default page number
+    numOfPages: 0,
+    movies: [],
+    series: [],
+    people: [],
+  });
+
   const clearState = () => {
     setData({
       page: 1,
@@ -60,6 +68,14 @@ const AppContextProvider = (props) => {
       people: [],
 
       reload: false,
+    });
+
+    setSearchData({
+      page: 1, // Default page number
+      numOfPages: 0,
+      movies: [],
+      series: [],
+      people: [],
     });
   };
 
@@ -277,6 +293,78 @@ const AppContextProvider = (props) => {
       });
   };
 
+  const fetchSearchMovies = async (searchQuery) => {
+    try {
+      await axios
+        .get(
+          `${Constant.DB_ENDPOINT}/search/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&include_adult=false&query=${searchQuery}&page=${searchData.page}`
+        )
+        .then((response) => {
+          const apiResponse = response.data;
+          setSearchData((oldData) => {
+            return {
+              ...oldData,
+              movies: apiResponse.results,
+              numOfPages: apiResponse.total_pages,
+            };
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchSearchSeries = async (searchQuery) => {
+    try {
+      await axios
+        .get(
+          `${Constant.DB_ENDPOINT}/search/tv?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&include_adult=false&query=${searchQuery}&page=${searchData.page}`
+        )
+        .then((response) => {
+          const apiResponse = response.data;
+          setSearchData((oldData) => {
+            return {
+              ...oldData,
+              series: apiResponse.results,
+              numOfPages: apiResponse.total_pages,
+            };
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchSearchPeople = async (searchQuery) => {
+    try {
+      await axios
+        .get(
+          `${Constant.DB_ENDPOINT}/search/person?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&include_adult=false&query=${searchQuery}&page=${searchData.page}`
+        )
+        .then((response) => {
+          const apiResponse = response.data;
+          setSearchData((oldData) => {
+            return {
+              ...oldData,
+              people: apiResponse.results,
+              numOfPages: apiResponse.total_pages,
+            };
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /*
   Create function to save movies, tv, people separately
 
@@ -341,6 +429,7 @@ const AppContextProvider = (props) => {
     <AppContext.Provider
       value={{
         data,
+        searchData,
         loading,
         setData,
         getMovies,
@@ -349,6 +438,10 @@ const AppContextProvider = (props) => {
         getTvOnAir,
         getGenres,
         getPeople,
+        fetchSearchMovies,
+        fetchSearchSeries,
+        fetchSearchPeople,
+
         clearState,
         saveToDB,
       }}

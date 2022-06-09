@@ -13,7 +13,7 @@ import {
   Badge,
 } from "@chakra-ui/react";
 
-const MovieCard = react.forwardRef(({ media }, ref) => {
+const MovieCard = react.forwardRef(({ media }, ref = null) => {
   return (
     <Link href={`/movies/${media.id}`}>
       <a>

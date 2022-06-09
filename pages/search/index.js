@@ -8,81 +8,47 @@ import {
   TabPanels,
   Tabs,
   Tab,
+  GridItem,
+  Button,
 } from "@chakra-ui/react";
-import axios from "axios";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../AppContext";
-import { Constant } from "../../Constant";
+import MovieCard from "../../components/Cards/MovieCard";
+import TvCard from "../../components/Cards/TvCard";
+import MediaGridSearch from "../../components/MediaGridSearch";
 
 const Search = () => {
   const {
-    data: {},
+    searchData: {page, numOfPages, movies, series, people},
+    loading,
     clearState,
+    fetchSearchMovies,
+    fetchSearchSeries,
+    fetchSearchPeople,
   } = useContext(AppContext);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [type, setType] = useState(0);
-  const [page, setPage] = useState(1);
-  const [numOfPages, setNumOfPages] = useState();
 
-  const [movies, setMovies] = useState([]);
-  const [series, setSeries] = useState([]);
-  const [people, setPeople] = useState([]);
-
-  const fetchSearch = async () => {
-    if (!searchQuery) {
+  const fetchData = (dataType) => {
+    if (searchQuery === "") {
       clearState();
       return;
     }
-
-    try {
-      if (type === 0) {
-        await axios
-          .get(
-            `${Constant.DB_ENDPOINT}/search/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&include_adult=false&query=${searchQuery}&page=${page}`
-          )
-          .then((response) => {
-            const apiResponse = response.data;
-            setMovies(apiResponse.results);
-            setNumOfPages(apiResponse.total_pages);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-
-      if (type === 1) {
-        await axios
-          .get(
-            `${Constant.DB_ENDPOINT}/search/tv?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&include_adult=false&query=${searchQuery}&page=${page}`
-          )
-          .then((response) => {
-            const apiResponse = response.data;
-            setSeries(apiResponse.results);
-            setNumOfPages(apiResponse.total_pages);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-
-      if (type === 2) {
-        await axios
-          .get(
-            `${Constant.DB_ENDPOINT}/search/person?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&include_adult=false&query=${searchQuery}&page=${page}`
-          )
-          .then((response) => {
-            const apiResponse = response.data;
-            setPeople(apiResponse.results);
-            setNumOfPages(apiResponse.total_pages);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    } catch (error) {
-      console.log(error);
+    switch (dataType) {
+      case 0:
+        fetchSearchMovies(searchQuery);
+        break;
+      case 1:
+        fetchSearchSeries(searchQuery);
+        break;
+      case 2:
+        fetchSearchPeople(searchQuery);
+        break;
+      default:
+        fetchSearchMovies(searchQuery);
+        break;
     }
   };
 
@@ -93,8 +59,8 @@ const Search = () => {
   };
 
   const handleClick = () => {
-    if (searchQuery.length > 3) {
-      fetchSearch();
+    if (searchQuery.length >= 2) {
+      fetchData(type);
     }
   };
 
@@ -103,7 +69,7 @@ const Search = () => {
   };
 
   useEffect(() => {
-    fetchSearch();
+    fetchData(type);
     //console.log(type);
   }, [type]);
 
@@ -124,8 +90,8 @@ const Search = () => {
           }}
           onKeyUp={handleKeyPress}
         />
+      <Button className="ml-2" onClick={handleClick}>Search</Button>
       </InputGroup>
-      <button onClick={handleClick}>Search</button>
 
       <Tabs
         isFitted
@@ -142,39 +108,62 @@ const Search = () => {
           <TabPanel>
             {type === 0 && (
               <div>
-                {movies.map((movie) => (
-                  <div key={movie.id}>
-                    <Link href={`/movies/${movie.id}`}>
-                      <a>{movie.title}</a>
-                    </Link>
-                  </div>
-                ))}
+                {!loading ? (
+                  <MediaGridSearch>
+                    {movies &&
+                      movies.map((movie, index) => (
+                        <GridItem key={index} w="100%">
+                          <MovieCard key={movie.id} media={movie} />
+                        </GridItem>
+                      ))}
+                  </MediaGridSearch>
+                ) : (
+                  <Button
+                    isLoading={loading}
+                    loadingText="Loading"
+                    colorScheme="teal"
+                    variant="outline"
+                    spinnerPlacement="end"
+                  />
+                )}
               </div>
             )}
           </TabPanel>
           <TabPanel>
             {type === 1 && (
               <div>
-                {series.map((tv) => (
-                  <div key={tv.id}>
-                    <Link href={`/tv/${tv.id}`}>
-                      <a>{tv.name}</a>
-                    </Link>
-                  </div>
-                ))}
+                {!loading ? (
+                  <MediaGridSearch>
+                    {series &&
+                      series.map((tv, index) => (
+                        <GridItem key={index} w="100%">
+                          <TvCard key={tv.id} media={tv} />
+                        </GridItem>
+                      ))}
+                  </MediaGridSearch>
+                ) : (
+                  <Button
+                    isLoading={loading}
+                    loadingText="Loading"
+                    colorScheme="teal"
+                    variant="outline"
+                    spinnerPlacement="end"
+                  />
+                )}
               </div>
             )}
           </TabPanel>
           <TabPanel>
             {type === 2 && (
               <div>
-                {people.map((person) => (
-                  <div key={person.id}>
-                    <Link href={`/people/${person.id}`}>
-                      <a>{person.name}</a>
-                    </Link>
-                  </div>
-                ))}
+                {people &&
+                  people.map((person) => (
+                    <div key={person.id}>
+                      <Link href={`/people/${person.id}`}>
+                        <a>{person.name}</a>
+                      </Link>
+                    </div>
+                  ))}
               </div>
             )}
           </TabPanel>
